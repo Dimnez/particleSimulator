@@ -4,7 +4,9 @@ import CanvasElement from '../../../CanvasElements/src/CanvasElements';
 import Water from './particleTypes/Water';
 import Stone from './particleTypes/Stone';
 import Lava from './particleTypes/Lava';
-import Grass from './particleTypes/grass';
+import Grass from './particleTypes/Grass';
+import Border from './particleTypes/WorldBorder';
+
 export default class GUI {
 
     public map: ParticleMap = new ParticleMap();
@@ -12,6 +14,7 @@ export default class GUI {
     public context2D?: CanvasElement;
     public currentTool: number = 1;
     public tools: Array<number> = [0, 1, 2, 3, 4, 5, 6];
+    public physicsOn: boolean = false;
 
     constructor(context2D: CanvasElement) {
         this.context2D = context2D;
@@ -43,6 +46,7 @@ export default class GUI {
             case 2: return new Stone();
             case 3: return new Lava();
             case 4: return new Grass();
+            case 5: return new Border();
             default: return new Water();
         }
 
@@ -59,7 +63,9 @@ export default class GUI {
 
         this.map.forEachParticle((x: number, y: number, element: Particle) => { if (element) { element.calculatedInCycle = false; } });
         this.map.forEachParticle(this.drawParticle);
-        this.map.calc();
+
+        if (this.physicsOn)
+            this.map.calc();
     }
 
     drawParticle = (x: number, y: number, particle: Particle) => {

@@ -1,5 +1,6 @@
 import GUI from './src/models/GUI';
 import CanvasElement from '../CanvasElements/src/CanvasElements';
+import { KeyboardKeys } from '../CanvasElements/src/Features/CEControlsFeature';
 
 const canvasEngine = new CanvasElement("#canvas", window);
 
@@ -32,6 +33,19 @@ canvasEngine.loop.requestFrame(() => {
     };
 
     //console.log(canvasEngine.controls.mouseState.clientX);
+
+
+    if (canvasEngine.controls.isPressed(KeyboardKeys.ENTER)) {
+        gui.map.generate();
+    }
+
+    if (canvasEngine.controls.isPressed(KeyboardKeys.SPACE)) {
+        gui.physicsOn = true;
+        console.log("physics on!");
+    }
+    else {
+        gui.physicsOn = false;
+    }
 
     if (canvasEngine.controls.mouseState.mouseDown) {
         gui.addParticle(mousePosition.x, mousePosition.y, 0);

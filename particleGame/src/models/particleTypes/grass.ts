@@ -14,4 +14,19 @@ export default class GrassParticle extends Particle {
         this.initialize();
     }
 
+    outerCircumstancesPerCycle = () => {
+
+        if (this.aggregateState === AGGREGATESTATE.GASEOUS) {
+            this.weight = -1;
+        }
+
+        if (this.temperature > 100) {
+            this.aggregateState = AGGREGATESTATE.GASEOUS;
+            this.primaryColor = "rgba(255,255,255,0.5)"
+        }
+        else
+            this.aggregateState = AGGREGATESTATE.SOLID;
+
+    }
+
 }
