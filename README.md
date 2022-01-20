@@ -4,8 +4,11 @@
 
 🕹 🔬 simple particle simulation for the web
 
-# Run<
+# About
 
+This project is a small particle simulator. Primarily I built it to test and improve my canvas library "CanvasElements". Feel free to use the code in whatever way you like.   
+
+# Run
 
 You need webpack, node and [canvasElements](https://github.com/Dimnez/CanvasElements) to build this application.
 
