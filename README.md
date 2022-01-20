@@ -1,7 +1,11 @@
 # particleSimulator
+
+img width="1206" alt="Bildschirmfoto 2022-01-20 um 23 21 39" src="https://user-images.githubusercontent.com/5229028/150431569-d8021b9f-7bba-4157-93e8-2b6febb580b8.png">
+
 🕹 🔬 simple particle simulation for the web
 
-# Run
+# Run<
+
 
 You need webpack, node and [canvasElements](https://github.com/Dimnez/CanvasElements) to build this application.
 
