@@ -6,7 +6,7 @@
 
 # About
 
-This project is a small particle simulator. Primarily I built it to test and improve my canvas library "CanvasElements". Feel free to use the code in whatever way you like.   
+This project is a small particle simulator. Primarily I built it to test and improve my canvas library [canvasElements](https://github.com/Dimnez/CanvasElements) . Feel free to use the code in whatever way you like.   
 
 # Run
 
