@@ -31,11 +31,19 @@ export default class Particle {
     public parentMap?: ParticleMap;
     public parentMapState?: ParticleMapState;
     public conductivity: number = 50;
-    public heatCapacity: number = 0.9;
+    public heatCapacity: number = 0.01;
     public angle: number = 0;
-
+    public brightness: number = 0;
+    public spawner: boolean = true;
     constructor() {
         this.initialize();
+    }
+
+    replaceWith = (particle: Particle) => {
+        if (this.parentMapState) {
+            this.parentMapState.particles = this.parentMapState.particles.splice(this.parentMapState.particles.indexOf(this));
+            this.parentMapState.particles.push(particle);
+        }
     }
 
     initialize = () => {
@@ -54,12 +62,36 @@ export default class Particle {
 
     collision = (particle: Particle) => {
         if (particle.temperature > this.temperature)
-            this.temperature += particle.temperature / this.heatCapacity;
-        else if (particle.temperature < this.temperature)
-            this.temperature -= particle.temperature / this.heatCapacity;
+            this.temperature += this.heatCapacity * particle.temperature * (Math.floor(2));
+        else if (this.temperature > particle.temperature)
+            this.temperature -= this.heatCapacity * particle.temperature * (Math.floor(2));
+    }
+
+    moveOutOrRandom = (handler: Function) => {
+
+        if (this.parentMapState?.neighbours?.above?.particles.length == 0) {
+            handler(DIRECTION.UP);
+        }
+        else if (this.parentMapState?.neighbours?.below?.particles.length == 0) {
+            handler(DIRECTION.DOWN);
+        }
+        else if (this.parentMapState?.neighbours?.right?.particles.length == 0) {
+            handler(DIRECTION.RIGHT);
+        }
+        else if (this.parentMapState?.neighbours?.left?.particles.length == 0) {
+            handler(DIRECTION.LEFT);
+        }
+        else {
+            handler(DIRECTION.UP);
+        }
     }
 
     move = (handler: Function) => {
+
+        if (this.parentMapState && this.parentMapState.density > this.density) {
+            this.moveOutOrRandom(handler);
+            return;
+        }
 
         if (this.aggregateState === AGGREGATESTATE.GASEOUS) {
             handler(this, DIRECTION.UP);
@@ -91,7 +123,7 @@ export default class Particle {
 
                 if (Math.floor(Math.random() * 3) == 1 && this.parentMapState?.neighbours?.left?.density! == 0)
                     handler(this, DIRECTION.LEFT);
-                else if (this.parentMapState?.neighbours?.right?.density! == 0)
+                else if (Math.floor(Math.random() * 2) == 0 && this.parentMapState?.neighbours?.right?.density! == 0)
                     handler(this, DIRECTION.RIGHT);
             }
 

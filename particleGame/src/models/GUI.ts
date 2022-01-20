@@ -6,15 +6,16 @@ import Stone from './particleTypes/Stone';
 import Lava from './particleTypes/Lava';
 import Grass from './particleTypes/Grass';
 import Border from './particleTypes/WorldBorder';
+import Ice from './particleTypes/Ice';
 
 export default class GUI {
 
     public map: ParticleMap = new ParticleMap();
-    public TILE_SIZE: number = 10;
+    public TILE_SIZE: number = 5;
     public context2D?: CanvasElement;
     public currentTool: number = 1;
     public tools: Array<number> = [0, 1, 2, 3, 4, 5, 6];
-    public physicsOn: boolean = false;
+    public physicsOn: boolean = true;
 
     constructor(context2D: CanvasElement) {
         this.context2D = context2D;
@@ -26,10 +27,12 @@ export default class GUI {
 
     calcTimer = () => {
 
+        if (this.physicsOn)
+           new Promise((resolve,reject)=>{this.map.calc();resolve(true)});
     }
 
     initialize = () => {
-        setInterval(this.calcTimer, 100);
+        setInterval(this.calcTimer, 5);
     }
 
     addParticle = (x: number, y: number, particleType: number) => {
@@ -47,6 +50,7 @@ export default class GUI {
             case 3: return new Lava();
             case 4: return new Grass();
             case 5: return new Border();
+            case 6: return new Ice();
             default: return new Water();
         }
 
@@ -58,22 +62,28 @@ export default class GUI {
         console.log("change tool to", tool);
     }
 
-    drawMap = () => {
-        this.context2D?.draw.clear("black");
+ 
 
-        this.map.forEachParticle((x: number, y: number, element: Particle) => { if (element) { element.calculatedInCycle = false; } });
-        this.map.forEachParticle(this.drawParticle);
+    drawMap = (gx:number,gy:number) => {
+        this.context2D?.draw.clear("#A4BAB7");
 
-        if (this.physicsOn)
-            this.map.calc();
+        this.map.forEachParticle((x: number, y: number, element: Particle) => { if (element) { element.calculatedInCycle = false; } this.drawParticle(gx+x, gy+y, element); });
+
     }
 
     drawParticle = (x: number, y: number, particle: Particle) => {
         if (!this.context2D)
             throw new Error("context2D should be set");
 
-
+      
         this.context2D.draw.fillRect(x * this.TILE_SIZE, y * this.TILE_SIZE, this.TILE_SIZE, this.TILE_SIZE, particle.primaryColor);
+    
+        /* if(particle instanceof Water)
+        {
+            this.context2D.draw.print(x * this.TILE_SIZE,y * this.TILE_SIZE,particle.temperature.toString(),"black");
+        }  */
+
+          
     }
 
 

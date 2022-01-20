@@ -1,4 +1,5 @@
 import Particle, { AGGREGATESTATE } from '../Particle';
+import IceParticle from './Ice';
 
 export default class WaterParticle extends Particle {
 
@@ -6,7 +7,6 @@ export default class WaterParticle extends Particle {
     public colors: Array<string> = ["#0f5e9c", "#2389da", "#1ca3ec", "#5abcd8"];
     public density: number = 1;
     public conductivity: number = 130;
-    public heatCapacity: number = 0.9;
     public aggregateState: AGGREGATESTATE = AGGREGATESTATE.LIQUID;
 
     constructor() {
@@ -19,17 +19,18 @@ export default class WaterParticle extends Particle {
         if (this.aggregateState === AGGREGATESTATE.GASEOUS) {
             this.weight = -1;
         }
-        if (this.temperature > 100) {
+        if (this.temperature >= 100) {
             this.aggregateState = AGGREGATESTATE.GASEOUS;
             this.primaryColor = "rgba(255,255,255,0.5)"
         }
-        else if (this.temperature < 100) {
+        else if (this.temperature < 100 && this.temperature > 0) {
             this.aggregateState = AGGREGATESTATE.LIQUID;
 
         }
         else if (this.temperature < 0) {
 
             this.aggregateState = AGGREGATESTATE.SOLID;
+            this.replaceWith(new IceParticle());
 
         }
     }

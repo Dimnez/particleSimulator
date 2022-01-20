@@ -15,9 +15,8 @@ export default class ParticleMapState {
 
     }
 
-    calc = () => {
-        for (const particle in this.particles) {
-            const particleObj = this.particles[particle];
+    calc = (w : number, h : number) => {
+        for (const particleObj of this.particles) {
             new Promise((resolve, reject) => {
                 if (particleObj) {
                     particleObj.calc(this);
@@ -25,8 +24,6 @@ export default class ParticleMapState {
                 resolve(true);
             });
         }
-
-
     }
 
     get density() {
@@ -41,18 +38,15 @@ export default class ParticleMapState {
 
     calcCollisions() {
 
-        for (const particle in this.particles) {
-            for (const collisionParticle in this.particles) {
-                if (collisionParticle != particle)
-                    this.particles[particle].collision(this.particles[collisionParticle]);
+        for (const particle of this.particles) {
+            for (const collisionParticle of this.particles) {
+                    particle.collision(collisionParticle);
             }
         }
     }
 
     moveParticle = (particle: Particle, direction: DIRECTION) => {
         const particleIndex = this.particles.indexOf(particle);
-
-        this.particles = [];
 
         if (this.neighbours?.below) {
             if (this.neighbours?.below.particles.length > 0)
@@ -71,34 +65,32 @@ export default class ParticleMapState {
                 this.neighbours?.right.particles[0].collision(particle);
         }
 
+        this.particles.splice(particleIndex,1);
+
         if (direction == DIRECTION.DOWN) {
             if (this.neighbours?.below) {
+                this.particles = this.particles.splice(particleIndex,1);
                 this.neighbours.below.particles.push(particle);
                 particle.parentMapState = this.neighbours.below;
             }
-            else
-                this.particles.push(particle);
         } else if (direction == DIRECTION.UP) {
             if (this.neighbours?.above) {
+                this.particles = this.particles.splice(particleIndex,1);
                 this.neighbours.above.particles.push(particle);
                 particle.parentMapState = this.neighbours.above;
             }
-            else
-                this.particles.push(particle);
         } else if (direction == DIRECTION.LEFT) {
             if (this.neighbours?.left) {
+                this.particles = this.particles.splice(particleIndex,1);
                 this.neighbours.left.particles.push(particle);
                 particle.parentMapState = this.neighbours.left;
             }
-            else
-                this.particles.push(particle);
         } else if (direction == DIRECTION.RIGHT) {
             if (this.neighbours?.right) {
+                this.particles = this.particles.splice(particleIndex,1);
                 this.neighbours.right.particles.push(particle);
                 particle.parentMapState = this.neighbours.right;
             }
-            else
-                this.particles.push(particle);
         }
 
     }
