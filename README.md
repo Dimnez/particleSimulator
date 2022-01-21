@@ -6,15 +6,6 @@
 
 # About
 
-This project is a small particle simulator. Primarily I built it to test and improve my canvas library [canvasElements](https://github.com/Dimnez/CanvasElements).
+This project is a small particle simulator. Primarily I built it to test and improve my canvas library [catyen](https://github.com/Dimnez/catyen).
 Feel free to use the code in whatever way you like.   
-
-# Run
-
-You need webpack, node and [canvasElements](https://github.com/Dimnez/CanvasElements) to build this application.
-
-1. Put './CanvasElements/ in the parent to the './particleSimulator/ folder
-2. Run 'npm install' in the './particleGame' folder
-3. Run 'npx webpack'
-4. Open the public/index.html in a browser
 
