@@ -1,6 +1,6 @@
 import ParticleMap from './ParticleMap';
 import Particle from './Particle';
-import CanvasElement from '../../../CanvasElements/src/CanvasElements';
+import Catyen from '@catyen/catyen';
 import Water from './particleTypes/Water';
 import Stone from './particleTypes/Stone';
 import Lava from './particleTypes/Lava';
@@ -12,12 +12,12 @@ export default class GUI {
 
     public map: ParticleMap = new ParticleMap();
     public TILE_SIZE: number = 5;
-    public context2D?: CanvasElement;
+    public context2D?: Catyen;
     public currentTool: number = 1;
     public tools: Array<number> = [0, 1, 2, 3, 4, 5, 6];
     public physicsOn: boolean = true;
 
-    constructor(context2D: CanvasElement) {
+    constructor(context2D: Catyen) {
         this.context2D = context2D;
     }
 

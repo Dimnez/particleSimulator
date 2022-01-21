@@ -174,19 +174,19 @@ export default class ParticleMap {
         this.forEachParticleMapState((particleState: ParticleMapState, w: number, h: number) => {
 
             particleState.calc(w, h);
-/* 
-            const spawners = [];//particleState.particles.filter(ps => ps.spawner);
-
-            for (const spawner of spawners) {
-
-                const newParticle = { ...spawner };
-                newParticle.spawner = false;
-
-
-
-                this.addParticle((w - 2) + Math.floor(Math.random() * 2), h + Math.floor(Math.random() * 2), newParticle);
-                newParticle.calc(particleState);
-            } */
+            /* 
+                        const spawners = [];//particleState.particles.filter(ps => ps.spawner);
+            
+                        for (const spawner of spawners) {
+            
+                            const newParticle = { ...spawner };
+                            newParticle.spawner = false;
+            
+            
+            
+                            this.addParticle((w - 2) + Math.floor(Math.random() * 2), h + Math.floor(Math.random() * 2), newParticle);
+                            newParticle.calc(particleState);
+                        } */
 
         });
     }
